@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.BlogMapper">
+    <insert id="addBlog" parameterType="blog">
+        <selectKey keyColumn="bid" keyProperty="bid" resultType="string" order="BEFORE">
+            select UUID()
+        </selectKey>
+        insert into blog value(#{bid},#{btitle},#{bcontent},#{bdate},0,#{uid},#{bpicture})
+    </insert>
+
+    <resultMap id="blogMap" type="blog">
+        <id column="bid" property="bid"/>
+        <result column="btitle" property="btitle"/>
+        <result column="bcontent" property="bcontent"/>
+        <result column="bdate" property="bdate"/>
+        <result column="blike" property="blike"/>
+        <result column="uid" property="uid"/>
+        <result column="bpicture" property="bpicture"/>
+        <collection property="commentList" ofType="comment">
+            <id column="cid" property="cid"/>
+            <result column="ccontent" property="ccontent"/>
+            <result column="cdate" property="cdate"/>
+            <result column="bid" property="bid"/>
+            <result column="uid" property="uid"/>
+        </collection>
+
+    </resultMap>
+    <!--<select id="getBlogs" resultMap="blogMap">
+        select * from blog b join comment c on b.bid = c.bid
+    </select>-->
+    <select id="getBlogs" resultType="blog">
+        select * from blog
+    </select>
+
+
+    <select id="getBlog" resultMap="blogMap" parameterType="string">
+        select * from blog b join comment c on b.bid = c.bid where b.bid = #{bid}
+    </select>
+
+    <select id="getBlogFirst" resultMap="blogMap" parameterType="string">
+        select * from blog where bid = #{bid}
+    </select>
+</mapper>

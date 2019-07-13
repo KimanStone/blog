@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.UserMapper">
+    <select id="getUser" parameterType="user" resultType="user">
+        select * from user where uname=#{uname} and upwd=#{upwd}
+    </select>
+    <insert id="addUser" parameterType="user">
+        <selectKey resultType="string" keyColumn="uid" keyProperty="uid" order="BEFORE">
+            select UUID()
+        </selectKey>
+        insert into user value(#{uid},#{uname},#{upwd})
+    </insert>
+</mapper>
