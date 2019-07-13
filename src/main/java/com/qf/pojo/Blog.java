@@ -18,6 +18,8 @@ public class Blog implements Serializable {
     private String bpicture;
     private List<Comment> commentList;
 
+
+
     public List<Comment> getCommentList() {
         return commentList;
     }
